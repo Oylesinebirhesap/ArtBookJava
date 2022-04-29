@@ -38,6 +38,9 @@ public class ArtActivity extends AppCompatActivity {
         binding = ActivityArtBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        registerLauncher();
+
     }
 
     public void save (View view){
@@ -54,23 +57,24 @@ public class ArtActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //request permission
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                     }
                 }).show();
 
             }else{
                 //request permission
+                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
             }
 
-            //request permission
         }else{
             //gallery
             Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+            activityResultLauncher.launch(intentToGallery);
         }
 
     }
 
-    private void registerLauncer() {
+    private void registerLauncher() {
 
         activityResultLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -106,7 +110,7 @@ public class ArtActivity extends AppCompatActivity {
                 if(result){
                     //permission granted
                     Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                    activityResultLauncher.launch(intentToGallery);
                 }else{
                     //permission denied
                     Toast.makeText(ArtActivity.this,"Permission needed!",Toast.LENGTH_LONG).show();
