@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 artArrayList.add(art);
             }
             cursor.close();
-            //deneme
 
 
         }catch (Exception e){
